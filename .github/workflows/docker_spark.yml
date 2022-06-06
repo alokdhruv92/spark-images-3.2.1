@@ -17,8 +17,6 @@ jobs:
       run: |
         docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
 
-    - name: Build the spark-py Docker image
+    - name: Docker Push
       run: |
-        docker pull alokdhruv92/spark-py:3.2.1
-        docker tag 174358258d3b ghcr.io/alokdhruv92/spark-py:3.2.1
-        docker push ghcr.io/alokdhruv92/spark-py:3.2.1
+        docker push alokdhruv92/spark-py:3.2.1
