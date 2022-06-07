@@ -1,22 +1,24 @@
-name: publish
-
-on: [push]
-
-jobs:
-  build:
+name : Dockerize spark application
+on : push
+jobs :
+  build-container:
+    name: Build Docker container image
     runs-on: ubuntu-latest
-
-    steps:
-    - uses: actions/checkout@v2
-
-    - name: docker login
-      env:
-        DOCKER_USER: ${{ secrets.DOCKER_USER }}
-        DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
-      
-      run: |
-        docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
-
-    - name: Docker Push
-      run: |
-        docker push alokdhruv92/spark-py:3.2.1
+    steps :
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Publish to GitHub Packages
+        uses: docker/build-push-action@v1
+        with :
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+          registry: docker.pkg.github.com
+          repository: ${{ github.repository }}/next
+          tags: 3.2.1, ${{ github.run_number }}
+      - name: Publish to Docker Hub
+        uses: docker/build-push-action@v1
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+          repository: alokdhruv92/spark-py
+          tags: 3.2.1, ${{ github.run_number }}
