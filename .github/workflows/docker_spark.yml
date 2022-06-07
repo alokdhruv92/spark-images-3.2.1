@@ -8,7 +8,7 @@ jobs :
       - name: Checkout code
         uses: actions/checkout@v2
       - name: Publish to GitHub Packages
-        uses: docker/build-push-action@v1
+        uses: alokdhruv92/spark-py:3.2.1
         with :
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
@@ -16,9 +16,9 @@ jobs :
           repository: ${{ github.repository }}/next
           tags: 3.2.1, ${{ github.run_number }}
       - name: Publish to Docker Hub
-        uses: docker/build-push-action@v1
+        uses: alokdhruv92/spark-py:3.2.1
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
-          repository: alokdhruv92/spark-py
+          repository: alokdhruv92/spark-py:3.2.1
           tags: 3.2.1, ${{ github.run_number }}
